@@ -15,23 +15,19 @@
     <string name="drawer_settings">Configuración</string>
     <string name="drawer_log_out">Cerrar sesión</string>
 
-
-    <string name="title_activity_login">Sign in</string>
-    <!-- Strings related to login -->
+<!-- LOGIN -->
+    <string name="title_activity_login">PlantApp</string>
             <!-- FIREBASE -->
     <string name="prompt_username">Nombre de usuario</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Entrar</string>
-
     <string name="action_sign_in_google">Entrar con Google</string>
 
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_invalid_username">Nombre de usuario inválido</string>
+    <string name="error_invalid_password">¡Constraseña muy corta!</string>
+    <string name="error_incorrect_password">Error en contraseña</string>
+    <string name="error_field_required">Campo requerido</string>
+
 
 
 
