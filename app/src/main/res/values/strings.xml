@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">PMDProyectoPlantas</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">PlantApp</string>
+    <string name="nav_header_subtitle">Diario de plantas</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="drawer_my_plants">Mis plantas</string>
+    <string name="drawer_events">Eventos</string>
+    <string name="drawer_alarms">Alarmas</string>
+    <string name="drawer_notifications">Notificaciones</string>
+    <string name="drawer_help">Ayuda</string>
+    <string name="drawer_settings">Configuración</string>
+    <string name="drawer_log_out">Cerrar sesión</string>
+
+
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+            <!-- FIREBASE -->
+    <string name="prompt_username">Nombre de usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Entrar</string>
+
+    <string name="action_sign_in_google">Entrar con Google</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+
+</resources>
