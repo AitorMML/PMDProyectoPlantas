@@ -91,7 +91,8 @@ public class ActivityLogin extends AppCompatActivity {
         String pass = this.password.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
+        //View focusView = null;
+
 
         if(!user.isEmpty() && pass.isEmpty()) {
             cancel = true;
@@ -107,27 +108,30 @@ public class ActivityLogin extends AppCompatActivity {
 
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(pass) && !isPasswordValid(pass)) {
+        if (!pass.isEmpty() && !isPasswordValid(pass)) {
             this.password.setError(getString(R.string.error_invalid_password));
-            focusView = this.password;
+            //focusView = this.password;
             cancel = true;
         }
 
         // Check for a valid username.
         if (TextUtils.isEmpty(user)) {
             username.setError(getString(R.string.error_field_required));
-            focusView = username;
+            //focusView = username;
             cancel = true;
         } else if (!isUsernameValid(user)) {
             username.setError(getString(R.string.error_invalid_username));
-            focusView = username;
+            //focusView = username;
             cancel = true;
         }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
+            //focusView.requestFocus();
+
+            username.setText("");
+            password.setText("");
         } else {
             //Ir a activityMain al estar todo correcto.
             Intent intent = new Intent(ActivityLogin.this, ActivityMain.class);
