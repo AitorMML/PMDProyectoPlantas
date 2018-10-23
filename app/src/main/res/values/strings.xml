@@ -15,9 +15,9 @@
     <string name="drawer_settings">Configuración</string>
     <string name="drawer_log_out">Cerrar sesión</string>
 
-<!-- LOGIN -->
+    <!-- LOGIN -->
     <string name="title_activity_login">PlantApp</string>
-            <!-- FIREBASE -->
+    <!-- FIREBASE -->
     <string name="prompt_username">Nombre de usuario</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Entrar</string>
@@ -28,7 +28,12 @@
     <string name="error_incorrect_password">Error en contraseña</string>
     <string name="error_field_required">Campo requerido</string>
 
+    <!-- PLANTS-->
+    <string name="activity_plants_tab_plantas">Plantas</string>
+    <string name="activity_plants_tab_grupos">Grupos</string>
+    <string name="activity_plants_toolbar_titulo">Mis Plantas</string>
 
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
