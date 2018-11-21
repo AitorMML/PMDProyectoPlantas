@@ -28,18 +28,19 @@ public class ActivityMain extends NavigationDrawerImp {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.add_plant);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//************** ABRIR ACTIVIDAD PARA PLANTA NUEVA (CÁMARA)
+                //************** ABRIR ACTIVIDAD PARA PLANTA NUEVA (CÁMARA)
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,7 +49,7 @@ public class ActivityMain extends NavigationDrawerImp {
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);*/
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.activity_events_viewpager);

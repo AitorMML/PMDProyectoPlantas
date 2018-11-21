@@ -2,14 +2,77 @@ package com.iteso.pmdproyectoplantas;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class NavigationDrawerImp extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Toolbar mActionBarToolbar;
+    private DrawerLayout mDrawerLayout;
+
+    /**
+     * Obtiene y crea el drawer para el NavigationDrawer.
+     * Este método es llamado en el postCreate, debido a la llamada
+     * toggle.syncState() que se recomienda hacer en el postCreate.
+     */
+    private void setupNavDrawer() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(mDrawerLayout == null) {
+            return;
+        }
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mActionBarToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if(navigationView == null) {
+            return;
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     *Hace la llamada a getActionBarToolbar, es recomendado hacer esta llamada en
+     * el método setContentView ya que, para el momento que se llega al onCreate,
+     * ya está definido el ActionBar.
+     */
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        getActionBarToolbar();
+    }
+
+    /**
+     * @return el toolbar de la actividad. Para la mayoría de las actividades de este
+     * proyecto se utiliza el tema AppTheme.NoActionBar, por lo que generalmente también
+     * habrá un AppBarLayout en el layout de la actividad.
+     */
+    protected Toolbar getActionBarToolbar() {
+        if (mActionBarToolbar == null) {
+            mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+            if (mActionBarToolbar != null) {
+                setSupportActionBar(mActionBarToolbar);
+            }
+        }
+        return mActionBarToolbar;
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        setupNavDrawer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

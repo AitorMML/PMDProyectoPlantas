@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_plants_drawer_layout"
-    android:fitsSystemWindows="true">
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:context=".ActivityPlants">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ActivityPlants">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_con_buscar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -46,7 +46,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_activity_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/header_drawer"
+        app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

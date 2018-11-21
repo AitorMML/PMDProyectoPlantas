@@ -32,7 +32,7 @@ public class ActivityPlants extends NavigationDrawerImp {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_con_buscar);
+        /*Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -40,9 +40,9 @@ public class ActivityPlants extends NavigationDrawerImp {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
-        toolbar.setTitle(R.string.activity_plants_toolbar_titulo);
+        getActionBarToolbar().setTitle(R.string.activity_plants_toolbar_titulo);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.activity_plants_viewpager);

@@ -39,10 +39,11 @@ public class AdapterEvento extends RecyclerView.Adapter<AdapterEvento.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //TODO: llenar a Holder (la clase de abajo) con los datos de verdad
-        holder.mProductImage.setImageResource(R.drawable.tulipanes);
-        holder.mProductTitle.setText("Tulipanes florecieron");
-        holder.mProductStore.setText("Flores de sombra");
-        holder.mProductPhone.setText("Ver tus anotaciones");
+        holder.mEventImage.setImageResource(R.drawable.tulipanes);
+        holder.mEventTitle.setText("Tulipanes florecieron");
+        holder.mPlantGroups.setText("Flores de sombra");
+        holder.mEventNotes.setText("Ver tus anotaciones");
+        holder.mEventDate.setText("10 de julio del 1996");
     }
 
     @Override
@@ -53,25 +54,25 @@ public class AdapterEvento extends RecyclerView.Adapter<AdapterEvento.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public Button mDetail;
         public Button mShare;
-        public TextView mProductTitle;
-        public TextView mProductStore;
-        public TextView mProductLocation;
-        public TextView mProductPhone;
-        public ImageView mProductImage;
+        public TextView mEventTitle;
+        public TextView mPlantGroups;
+        public TextView mEventDate;
+        public TextView mEventNotes;
+        public ImageView mEventImage;
         public RelativeLayout mEventLayout;
         public LinearLayout mHomeInfo;
 
         public ViewHolder(View v) {
             super(v);
-            mEventLayout = (RelativeLayout)v.findViewById(R.id.item_product_layout);
-            mProductImage = (ImageView)v.findViewById(R.id.item_product_image);
-            mProductTitle = (TextView)v.findViewById(R.id.item_product_title);
+            mEventLayout = (RelativeLayout)v.findViewById(R.id.item_event_layout);
+            mEventImage = (ImageView)v.findViewById(R.id.item_event_image);
+            mEventTitle = (TextView)v.findViewById(R.id.item_event_title);
             mHomeInfo = v.findViewById(R.id.card_home_info);
-            mProductStore = (TextView)v.findViewById(R.id.item_product_store);
-            mProductLocation = (TextView)v.findViewById(R.id.item_product_location);
-            mProductPhone = (TextView)v.findViewById(R.id.item_product_phone);
-            mShare = (Button)v.findViewById(R.id.item_product_share);
-            mDetail = (Button)v.findViewById(R.id.item_product_detail);
+            mPlantGroups = (TextView)v.findViewById(R.id.item_plant_groups);
+            mEventDate = (TextView)v.findViewById(R.id.item_event_date);
+            mEventNotes = (TextView)v.findViewById(R.id.item_event_notes);
+            mShare = (Button)v.findViewById(R.id.item_event_share);
+            mDetail = (Button)v.findViewById(R.id.item_event_details);
         }
     }
 }
