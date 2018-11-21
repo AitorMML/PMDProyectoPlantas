@@ -44,8 +44,8 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal|center"
             android:orientation="vertical"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp">
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
             <TextView
                 android:id="@+id/item_plant_groups"
