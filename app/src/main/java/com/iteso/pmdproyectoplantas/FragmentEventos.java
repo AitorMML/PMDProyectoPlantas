@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.iteso.pmdproyectoplantas.adapters.AdapterEvento;
 import com.iteso.pmdproyectoplantas.adapters.AdapterPlanta;
+import com.iteso.pmdproyectoplantas.beans.Evento;
 
 import java.util.ArrayList;
 
@@ -31,9 +32,9 @@ public class FragmentEventos extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         //TODO: Cambiar por implementación real de las plantas en la bd
-        ArrayList<Object> myDataSet = new ArrayList<Object>();
+        ArrayList<Evento> myDataSet = new ArrayList<>();
         for (int i=0; i<10; ++i)
-            myDataSet.add(new Object());
+            myDataSet.add(new Evento());
 
         mAdapter = new AdapterEvento(getActivity(),myDataSet);
         recyclerView.setAdapter(mAdapter);

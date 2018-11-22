@@ -34,7 +34,6 @@
     <string name="activity_plants_toolbar_titulo">Mis Plantas</string>
     <string name="activity_plants_search_hint">Buscar</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Fragmento en blanco</string>
 
 </resources>

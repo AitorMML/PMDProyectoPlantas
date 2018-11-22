@@ -13,17 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iteso.pmdproyectoplantas.R;
+import com.iteso.pmdproyectoplantas.beans.Evento;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterEvento extends RecyclerView.Adapter<AdapterEvento.ViewHolder> {
-    //TODO: Cambiar object por el bean de Evento
-    private List<Object> mDataSet;
+    private List<Evento> mDataSet;
     private Context context;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterEvento(Context context, ArrayList<Object> myDataSet) {
+    public AdapterEvento(Context context, ArrayList<Evento> myDataSet) {
         mDataSet = myDataSet;
         this.context = context;
     }

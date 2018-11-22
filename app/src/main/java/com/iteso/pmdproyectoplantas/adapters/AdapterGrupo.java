@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.ViewHolder> implements Filterable {
-    //TODO: Cambiar object por el bean de planta
     private List<Grupo> mDataSet;
     private Context context;
 

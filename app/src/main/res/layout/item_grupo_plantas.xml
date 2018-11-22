@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- TODO: Ajustar estos tamaños para diferentes densidades y completar esta interfaz en general-->
         <RelativeLayout
             android:id="@+id/grupo_icono_inicial"
             android:layout_width="wrap_content"
