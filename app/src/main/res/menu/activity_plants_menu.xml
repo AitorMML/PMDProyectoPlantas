@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/activity_plants_buscar_btn"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always">
+        android:title="Buscar"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView">
     </item>
 </menu>

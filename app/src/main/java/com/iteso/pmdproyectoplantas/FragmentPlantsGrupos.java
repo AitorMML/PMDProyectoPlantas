@@ -1,7 +1,5 @@
 package com.iteso.pmdproyectoplantas;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,40 +10,44 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.iteso.pmdproyectoplantas.adapters.AdapterGrupo;
 import com.iteso.pmdproyectoplantas.adapters.AdapterPlanta;
-import com.iteso.pmdproyectoplantas.beans.Planta;
+import com.iteso.pmdproyectoplantas.beans.Grupo;
 
 import java.util.ArrayList;
 
 
-public class FragmentPlantas extends Fragment implements Filterable {
+public class FragmentPlantsGrupos extends Fragment implements Filterable {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public FragmentPlantas() {}
+    public FragmentPlantsGrupos() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plants_plantas, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.fragment_plants_plantas);
+        View view = inflater.inflate(R.layout.fragment_plants_grupos, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.fragment_plants_grupos);
         recyclerView.setHasFixedSize(false);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        //TODO: Cambiar por implementación real de las plantas en la bd
-        ArrayList<Planta> myDataSet = new ArrayList<>();
-        for (int i=0; i<10; ++i)
-            myDataSet.add(new Planta());
+        ArrayList<Grupo> myDataSet = new ArrayList<>();
+        for (int i=0; i<5; ++i)
+            myDataSet.add(new Grupo());
 
-        mAdapter = new AdapterPlanta(getActivity(),myDataSet);
+        mAdapter = new AdapterGrupo(getActivity(),myDataSet);
         recyclerView.setAdapter(mAdapter);
 
         return view;
     }
 
+    public void filter() {
+
+    }
+
     @Override
     public Filter getFilter() {
-        return ((Filterable)mAdapter).getFilter();
+        return ((AdapterGrupo)mAdapter).getFilter();
     }
 }
