@@ -13,7 +13,6 @@ public class Planta implements Parcelable {
     private String imagenUriString;
 
     public Planta() {
-        imagenUriString = null;
     }
 
     protected Planta(Parcel in) {
@@ -87,6 +86,7 @@ public class Planta implements Parcelable {
         parcel.writeString(nombre);
         parcel.writeString(especie);
         parcel.writeString(cuidados);
+        parcel.writeString(imagenUriString);
     }
 
     @Override

@@ -116,11 +116,9 @@ public class NavigationDrawerImp extends AppCompatActivity implements Navigation
             // Handle the camera action
             Intent intent = new Intent(this, ActivityPlants.class);
             startActivity(intent);
-            finish();
         } else if (id == R.id.nav_events) {
             Intent intent = new Intent(this, ActivityMain.class);
             startActivity(intent);
-            finish();
         } else if (id == R.id.nav_alarms) {
 
         } else if (id == R.id.nav_notifications) {

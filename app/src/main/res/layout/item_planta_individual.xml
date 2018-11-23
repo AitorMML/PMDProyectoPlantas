@@ -4,7 +4,8 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp">
+    android:layout_marginBottom="1dp"
+    android:id="@+id/planta_individual_holder">
 
     <LinearLayout
         android:layout_width="match_parent"

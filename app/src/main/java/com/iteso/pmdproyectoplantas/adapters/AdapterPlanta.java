@@ -1,8 +1,10 @@
 package com.iteso.pmdproyectoplantas.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.iteso.pmdproyectoplantas.ActivityLogin;
+import com.iteso.pmdproyectoplantas.ActivityMain;
+import com.iteso.pmdproyectoplantas.ActivityPlantDetail;
 import com.iteso.pmdproyectoplantas.NavigationDrawerImp;
 import com.iteso.pmdproyectoplantas.R;
 import com.iteso.pmdproyectoplantas.beans.Grupo;
@@ -55,22 +62,20 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
         holder.descripcion.setText(mDataSet.get(position).getEspecie());
         holder.imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        //TODO: Cambiar esto por la organización verdadera del sistema de archivos
-        if(mDataSet.get(position).getImagenUriString() == null) {
-            StorageReference mStorageReference = FirebaseStorage.getInstance().getReference().child("users")
-                    .child("id_user").child("id_planta").child("tulipanes.jpg");
-            mStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    mDataSet.get(position).setImagenUriString(uri.toString());
-                    SimpleDraweeView draweeView = (SimpleDraweeView) holder.imagen;
-                    draweeView.setImageURI(uri);
-                }
-            });
-        } else {
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("users")
+                .child(FirebaseAuth.getInstance().getUid()).child("plants")
+                .child(mDataSet.get(position).getPlantaId()).child(mDataSet.get(position).getImagenUriString());
+        mStorageReference.getDownloadUrl().addOnSuccessListener((Uri uri)->{
+            //mDataSet.get(position).setImagenUriString(uri.toString());
             SimpleDraweeView draweeView = (SimpleDraweeView) holder.imagen;
-            draweeView.setImageURI(Uri.parse(mDataSet.get(position).getImagenUriString()));
-        }
+            draweeView.setImageURI(uri);
+        });
+
+        holder.contenedor.setOnClickListener((View v)->{
+            Intent intent = new Intent(context, ActivityPlantDetail.class);
+            intent.putExtra("PLANT", mDataSet.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -128,12 +133,14 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
         public ImageView imagen;
         public TextView nombre;
         public TextView descripcion;
+        public CardView contenedor;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imagen = itemView.findViewById(R.id.planta_imagen);
             nombre = itemView.findViewById(R.id.planta_nombre);
             descripcion = itemView.findViewById(R.id.planta_descripcion);
+            contenedor = itemView.findViewById(R.id.planta_individual_holder);
         }
     }
 }

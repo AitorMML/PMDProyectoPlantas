@@ -19,6 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ActivityMain extends NavigationDrawerImp {
     FloatingActionButton fab ;
     private ViewPager viewPager;
@@ -50,6 +54,18 @@ public class ActivityMain extends NavigationDrawerImp {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean val = super.onOptionsItemSelected(item);
+        FirebaseAuth.getInstance().signOut();
+
+        Intent intent = new Intent(this, ActivityPlantDetail.class);
+        startActivity(intent);
+        finish();
+
+        return val;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -1,6 +1,10 @@
 package com.iteso.pmdproyectoplantas;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,56 +15,60 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * A login screen that offers login via email/password.
- */
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ActivityLogin extends AppCompatActivity {
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_PASSWORD_REGEX =
+            Pattern.compile("^(?=.*[0-9])(?=\\S+$).{6,}$");
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-        // private UserLoginTask mAuthTask = null;
 
-    // UI references.
     private EditText username;
     private EditText password;
-                //private View mProgressView;
-                //private View mLoginFormView;
     Button userSignInButton, googleSignInButton;
+
+    private FirebaseAuth mAuth;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
         username = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         userSignInButton = (Button) findViewById(R.id.sign_in_button);
         googleSignInButton = (Button) findViewById(R.id.google_sign_in_button);
-            //mLoginFormView = findViewById(R.id.login_form);
-            //mProgressView = findViewById(R.id.login_progress);
 
+        mAuth = FirebaseAuth.getInstance();
 
-        userSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
+        userSignInButton.setOnClickListener((View v)->{
+            attemptLogin();
         });
-        userSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
+        googleSignInButton.setOnClickListener((View v)->{
+                Toast.makeText(ActivityLogin.this, "G+", Toast.LENGTH_SHORT).show();
         });
+
+        preferences = getPreferences(MODE_PRIVATE);
+
+        //Stub para hacer más rápido mis pruebas
+        username.setText("cianocrilato@hotmail.com");
+        password.setText("1234567");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     /**
@@ -76,11 +84,13 @@ public class ActivityLogin extends AppCompatActivity {
      *      manda a ActivityMain.
      */
     private void attemptLogin() {
-       /*
-        if (mAuthTask != null) {
+        boolean doContinue = true;
+        String uid = getPreferences(MODE_PRIVATE).getString("UID", null);
+
+        /*if(uid != null) {
+            doLogin(uid);
             return;
         }*/
-
 
         // Reset errors.
         username.setError(null);
@@ -90,179 +100,55 @@ public class ActivityLogin extends AppCompatActivity {
         String user = username.getText().toString();
         String pass = this.password.getText().toString();
 
-        boolean cancel = false;
-        //View focusView = null;
-
-
-        if(!user.isEmpty() && pass.isEmpty()) {
-            cancel = true;
-            Toast.makeText(this, R.string.error_invalid_password, Toast.LENGTH_LONG).show();
-            password.setText("");
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(user);
+        if(!matcher.find()) {
+            username.setError("Correo inválido");
+            doContinue = false;
         }
 
-        if(!pass.isEmpty() && user.isEmpty()) {
-            cancel = true;
-            Toast.makeText(this, R.string.error_invalid_username, Toast.LENGTH_LONG).show();
-            password.setText("");
+        matcher =VALID_PASSWORD_REGEX.matcher(pass);
+        if(!matcher.find()) {
+            password.setError("Contraseña inválida");
+            doContinue = false;
+        }
+
+        if(!doContinue) {
+            return;
         }
 
 
-        // Check for a valid password, if the user entered one.
-        if (!pass.isEmpty() && !isPasswordValid(pass)) {
-            this.password.setError(getString(R.string.error_invalid_password));
-            //focusView = this.password;
-            cancel = true;
-        }
+        // [START sign_in_with_email] (@NonNull Task<AuthResult> task)
+        mAuth.signInWithEmailAndPassword(user, pass)
+                .addOnCompleteListener(this, (@NonNull Task<AuthResult> task)->{
+                    if (task.isSuccessful()) {
+                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                        editor.putString("UID", mAuth.getUid());
+                        editor.commit();
 
-        // Check for a valid username.
-        if (TextUtils.isEmpty(user)) {
-            username.setError(getString(R.string.error_field_required));
-            //focusView = username;
-            cancel = true;
-        } else if (!isUsernameValid(user)) {
-            username.setError(getString(R.string.error_invalid_username));
-            //focusView = username;
-            cancel = true;
-        }
+                        doLogin(mAuth.getUid());
+                    } else {
+                        Toast.makeText(ActivityLogin.this, "Autenticación fallida",
+                                Toast.LENGTH_SHORT).show();
+                        username.setError(null);
+                        username.setText("");
+                        password.setError(null);
+                        password.setText("");
+                    }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            //focusView.requestFocus();
-
-            username.setText("");
-            password.setText("");
-        } else {
-            //Ir a activityMain al estar todo correcto.
-            Intent intent = new Intent(ActivityLogin.this, ActivityMain.class);
-            startActivity(intent);
-            finish();
-
-
-            /*
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(user, password);
-            mAuthTask.execute((Void) null);
-            */
-        }
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(ActivityLogin.this, "Task no terminado"
+                                , Toast.LENGTH_SHORT).show();;
+                    }
+                });
+        // [END sign_in_with_email]
     }
 
-    private boolean isUsernameValid(String username) {
-        //TODO: Replace this with your own logic
-        // comprobación de Firebase
-        return true; //username.contains("@");
+    private void doLogin(String uid) {
+        //FirebaseDatabase.getInstance().getReference("users").child("KCeb2n1Ib6aJHY2tyi1LuoGQkIi2").child("plants").child("12345").
+
+        Intent intent = new Intent(ActivityLogin.this, ActivityMain.class);
+        startActivity(intent);
+        finish();
     }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    /*
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-*/
-
-
-
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-
-    /*
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                password.setError(getString(R.string.error_incorrect_password));
-                password.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
-    */
-
-
 }
 
