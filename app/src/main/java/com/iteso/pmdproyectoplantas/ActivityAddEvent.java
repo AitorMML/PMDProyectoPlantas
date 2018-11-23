@@ -75,11 +75,12 @@ public class ActivityAddEvent extends AppCompatActivity {
 
                 datePickerDialog = new DatePickerDialog(ActivityAddEvent.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int mYear, int mMonth, int dayOfMonth) {
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
                         //fecha es un long
-                        date.setText(mYear*10000 + mMonth*100 + dayOfMonth);
+                        date.setText(mYear + "," + mMonth + "," + mDay);
                     }
                 }, day, month, year);
+                datePickerDialog.show();
             }
         });
 
