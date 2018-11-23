@@ -13,20 +13,19 @@
             android:name=".ActivityMain"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ActivityLogin"
             android:label="@string/title_activity_login">
+
+        </activity>
+        <activity android:name=".ActivityEvents">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityEvents" />
         <activity android:name=".ActivityPlants"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
