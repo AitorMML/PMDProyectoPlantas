@@ -1,6 +1,7 @@
 package com.iteso.pmdproyectoplantas.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,16 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.iteso.pmdproyectoplantas.NavigationDrawerImp;
 import com.iteso.pmdproyectoplantas.R;
 import com.iteso.pmdproyectoplantas.beans.Grupo;
 import com.iteso.pmdproyectoplantas.beans.Planta;
@@ -22,8 +33,10 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
     private List<Planta> mDataSet;
     private Context context;
 
+    private DatabaseReference databaseReference;
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterPlanta(Context context, ArrayList<Planta> myDataSet) {
+    public AdapterPlanta(Context context, List<Planta> myDataSet) {
         mDataSet = myDataSet;
         this.context = context;
     }
@@ -37,12 +50,27 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //TODO: llenar a Holder (la clase de abajo) con los datos de verdad
-        holder.nombre.setText("Tulipanes");
-        holder.descripcion.setText("Flores de sombra moderada");
-        holder.imagen.setImageResource(R.drawable.tulipanes);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        holder.nombre.setText(mDataSet.get(position).getNombre());
+        holder.descripcion.setText(mDataSet.get(position).getEspecie());
         holder.imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        //TODO: Cambiar esto por la organización verdadera del sistema de archivos
+        if(mDataSet.get(position).getImagenUriString() == null) {
+            StorageReference mStorageReference = FirebaseStorage.getInstance().getReference().child("users")
+                    .child("id_user").child("id_planta").child("tulipanes.jpg");
+            mStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    mDataSet.get(position).setImagenUriString(uri.toString());
+                    SimpleDraweeView draweeView = (SimpleDraweeView) holder.imagen;
+                    draweeView.setImageURI(uri);
+                }
+            });
+        } else {
+            SimpleDraweeView draweeView = (SimpleDraweeView) holder.imagen;
+            draweeView.setImageURI(Uri.parse(mDataSet.get(position).getImagenUriString()));
+        }
     }
 
     @Override
@@ -77,6 +105,8 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
             }
         };
     }
+
+    public List<Planta> getDataSet() { return mDataSet; }
 
     protected List<Planta> getSearchResults(String query) {
         List<Planta> results = new ArrayList<>(mDataSet);

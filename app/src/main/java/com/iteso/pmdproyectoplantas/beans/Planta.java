@@ -10,9 +10,10 @@ public class Planta implements Parcelable {
     private String nombre;
     private String especie;
     private String cuidados;
-    private StorageReference imagen;
+    private String imagenUriString;
 
     public Planta() {
+        imagenUriString = null;
     }
 
     protected Planta(Parcel in) {
@@ -20,6 +21,7 @@ public class Planta implements Parcelable {
         nombre = in.readString();
         especie = in.readString();
         cuidados = in.readString();
+        imagenUriString = in.readString();
     }
 
     public static final Creator<Planta> CREATOR = new Creator<Planta>() {
@@ -66,12 +68,12 @@ public class Planta implements Parcelable {
         this.cuidados = cuidados;
     }
 
-    public StorageReference getImagen() {
-        return imagen;
+    public String getImagenUriString() {
+        return imagenUriString;
     }
 
-    public void setImagen(StorageReference imagen) {
-        this.imagen = imagen;
+    public void setImagenUriString(String imagenUriString) {
+        this.imagenUriString = imagenUriString;
     }
 
     @Override
@@ -94,7 +96,7 @@ public class Planta implements Parcelable {
                 ", nombre='" + nombre + '\'' +
                 ", especie='" + especie + '\'' +
                 ", cuidados='" + cuidados + '\'' +
-                ", imagen=" + imagen.getPath() +
+                ", imagen='" + imagenUriString +
                 '}';
     }
 }

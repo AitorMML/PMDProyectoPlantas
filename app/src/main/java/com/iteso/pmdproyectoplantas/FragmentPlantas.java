@@ -3,6 +3,8 @@ package com.iteso.pmdproyectoplantas;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,17 +14,53 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.iteso.pmdproyectoplantas.adapters.AdapterPlanta;
 import com.iteso.pmdproyectoplantas.beans.Planta;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class FragmentPlantas extends Fragment implements Filterable {
-    private RecyclerView.Adapter mAdapter;
+    private AdapterPlanta mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private List<Planta> plantas = new LinkedList<>();
+    private DatabaseReference mDataReference;
+
     public FragmentPlantas() {}
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDataReference = FirebaseDatabase.getInstance().getReference().child("plantas");
+        mDataReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot snapshot = dataSnapshot;
+                Iterable<DataSnapshot> contactChildre = snapshot.getChildren();
+                for(DataSnapshot data : contactChildre) {
+                    final Planta planta = data.getValue(Planta.class);
+                    plantas.add(planta);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,16 +68,18 @@ public class FragmentPlantas extends Fragment implements Filterable {
         View view = inflater.inflate(R.layout.fragment_plants_plantas, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_plants_plantas);
         recyclerView.setHasFixedSize(false);
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
-        //TODO: Cambiar por implementación real de las plantas en la bd
-        ArrayList<Planta> myDataSet = new ArrayList<>();
-        for (int i=0; i<10; ++i)
-            myDataSet.add(new Planta());
-
-        mAdapter = new AdapterPlanta(getActivity(),myDataSet);
+        mAdapter = new AdapterPlanta(getActivity(), plantas);
         recyclerView.setAdapter(mAdapter);
+
+        /*Planta planta = new Planta();
+        planta.setNombre("Tulip el Tulipan");
+        planta.setEspecie("Liliaceae");
+        planta.setCuidados("Plantar en área de sombra moderada.\nRegar menos en primavera y regar más en verano.\nCuidar que el agua no se estanque.");
+        planta.setPlantaId(databaseReference.child("plantas").push().getKey());
+        databaseReference.child("plantas").child(planta.getPlantaId()).setValue(planta);*/
 
         return view;
     }
