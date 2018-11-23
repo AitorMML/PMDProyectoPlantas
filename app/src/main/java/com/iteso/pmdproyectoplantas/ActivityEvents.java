@@ -1,6 +1,7 @@
 package com.iteso.pmdproyectoplantas;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,21 +44,10 @@ public class ActivityEvents extends AppCompatActivity {
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abrir un datePicker
-                calendar = Calendar.getInstance();
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                month = calendar.get(Calendar.MONTH);
-                year = calendar.get(Calendar.YEAR);
-
-                final Evento evento = new Evento();
-
-                datePickerDialog = new DatePickerDialog(ActivityEvents.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int mYear, int mMonth, int dayOfMonth) {
-                        //fecha es un long
-                        evento.setEpochFecha(mYear*10_000 + mMonth*100 + dayOfMonth);
-                    }
-                }, day, month, year);
+                //pedir datos de evento
+                //parcelable?
+                Intent intent = new Intent(ActivityEvents.this, ActivityAddEvent.class);
+                startActivity(intent);
 
             }
         });
