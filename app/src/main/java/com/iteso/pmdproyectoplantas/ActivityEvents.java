@@ -34,12 +34,10 @@ public class ActivityEvents extends AppCompatActivity {
         setContentView(R.layout.activity_events);
 
 
-
         addEvent = findViewById(R.id.activity_event_add);
         //datePicker = findViewById(R.id.activity_events_picker);
 
-        final FragmentEventos fragmentEventos = new FragmentEventos(); //lista de eventos
-
+        FragmentEventos fragmentEventos = new FragmentEventos();
 
 
         addEvent.setOnClickListener(new View.OnClickListener() {

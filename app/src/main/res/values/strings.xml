@@ -36,4 +36,17 @@
 
     <string name="hello_blank_fragment">Fragmento en blanco</string>
 
+    <!-- Agregar evento-->
+    <string name="add_event_id">Escribe ID de tu evento</string>
+    <string name="add_event_title">Escribe título de tu evento</string>
+    <string name="add_event_group">Escribe ID del grupo</string>
+    <string name="add_event_notes">Escribe tus notas aquí</string>
+    <string name="add_event_picture">¡Toma una foto para tu evento!</string>
+    <string name="add_event_date">Tu fecha aquí</string>
+    <string name="add_event_add_date">Cambiar fecha</string>
+
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancelar</string>
+
+
 </resources>
