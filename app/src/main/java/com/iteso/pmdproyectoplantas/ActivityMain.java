@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,8 +61,9 @@ public class ActivityMain extends NavigationDrawerImp {
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean val = super.onOptionsItemSelected(item);
         FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
 
-        Intent intent = new Intent(this, ActivityPlantDetail.class);
+        Intent intent = new Intent(this, ActivityLogin.class);
         startActivity(intent);
         finish();
 

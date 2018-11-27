@@ -17,6 +17,15 @@
 
     <!-- LOGIN -->
     <string name="title_activity_login">PlantApp</string>
+    <string name="activity_login_auth_fail">Autenticación fallida</string>
+    <string name="activity_login_task_fail">Actividad asíncrona no terminada</string>
+    <string name="activity_login_invalid_email">Correo inválido</string>
+    <string name="activity_login_invalid_password">Contraseña inválida</string>
+    <string name="activity_main_registro_banner">¿No está registrado? Haga click aquí</string>
+    <string name="activity_main_registro_fallido">Registro fallido</string>
+    <!-- Facebook Auth -->
+    <string name="facebook_app_id">506577483162556</string>
+    <string name="fb_login_protocol_scheme">fb506577483162556</string>
     <!-- FIREBASE -->
     <string name="prompt_username">Nombre de usuario</string>
     <string name="prompt_password">Contraseña</string>

@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class NavigationDrawerImp extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar mActionBarToolbar;
@@ -128,7 +131,12 @@ public class NavigationDrawerImp extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
 
+            Intent intent = new Intent(this, ActivityLogin.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

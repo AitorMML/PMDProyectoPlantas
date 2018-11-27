@@ -42,20 +42,26 @@
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
-
     <Button
         android:id="@+id/sign_in_button"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/action_sign_in"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activity_login_registrarse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:text="@string/activity_main_registro_banner" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:orientation="vertical">
 
         <View
@@ -63,13 +69,19 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
 
-        <Button
-            android:id="@+id/google_sign_in_button"
-            style="?android:textAppearanceSmall"
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/fb_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/action_sign_in_google"
-            android:textStyle="bold" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>
