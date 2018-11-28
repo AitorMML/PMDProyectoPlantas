@@ -7,6 +7,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configuraciones</string>
 
+    <string name="campo_en_blanco">¡Campo vacío!</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+
     <string name="drawer_my_plants">Mis plantas</string>
     <string name="drawer_events">Eventos</string>
     <string name="drawer_alarms">Alarmas</string>
@@ -35,13 +39,24 @@
     <string name="error_invalid_username">Nombre de usuario inválido</string>
     <string name="error_invalid_password">¡Constraseña muy corta!</string>
     <string name="error_incorrect_password">Error en contraseña</string>
-    <string name="error_field_required">Campo requerido</string>
+    <string name="error_field_required">Campos requeridos</string>
 
     <!-- PLANTS-->
     <string name="activity_plants_tab_plantas">Plantas</string>
     <string name="activity_plants_tab_grupos">Grupos</string>
     <string name="activity_plants_toolbar_titulo">Mis Plantas</string>
     <string name="activity_plants_search_hint">Buscar</string>
+
+    <!--Activity add plants-->
+    <string name="activity_add_plant_fotografia">Fotografía</string>
+    <string name="activity_add_plant_nombre">Nombre</string>
+    <string name="activity_add_plant_especie">Especie</string>
+    <string name="activity_add_plant_cuidados">Cuidados</string>
+    <string name="activity_add_plant_guardar">Guardar</string>
+    <string name="activity_add_plant_canelar">Cancelar</string>
+    <string name="activity_add_plant_titulo">Agregar una planta</string>
+    <string name="activity_add_plant_dialog_message">No ha seleccionado ninguna imagen,
+    ¿desea continuar sin una imagen para esta planta?</string>
 
     <string name="hello_blank_fragment">Fragmento en blanco</string>
     <string name="title_activity_plant_detail">ActivityPlantDetail</string>

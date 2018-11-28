@@ -1,6 +1,7 @@
 package com.iteso.pmdproyectoplantas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,10 +29,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteso.pmdproyectoplantas.adapters.AdapterPlanta;
 import com.iteso.pmdproyectoplantas.beans.Planta;
+import com.iteso.pmdproyectoplantas.tools.Constants;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentPlantas extends Fragment implements Filterable {
@@ -88,6 +94,15 @@ public class FragmentPlantas extends Fragment implements Filterable {
         databaseReference.child("plantas").child(planta.getPlantaId()).setValue(planta);*/
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            Toast.makeText(getContext(), "Desde fragment plantas: "+data.getStringExtra(Constants.extraBeanPlanta), Toast.LENGTH_SHORT).show();
+        } else if(resultCode == RESULT_CANCELED) {
+            Toast.makeText(getContext(), "Desde fragment plantas: :c", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

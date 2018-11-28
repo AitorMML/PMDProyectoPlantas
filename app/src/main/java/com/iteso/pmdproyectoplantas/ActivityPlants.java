@@ -1,9 +1,12 @@
 package com.iteso.pmdproyectoplantas;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,14 +29,19 @@ import android.widget.Filterable;
 import android.widget.Toast;
 
 import com.iteso.pmdproyectoplantas.adapters.AdapterGrupo;
+import com.iteso.pmdproyectoplantas.tools.Constants;
 
 public class ActivityPlants extends NavigationDrawerImp {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     SectionsPagerAdapter mSectionsPagerAdapter;
+    private FragmentPlantas fragmentPlantas;
+    private FragmentPlantsGrupos fragmentPlantsGrupos;
 
     private SearchView mSearchView;
+    private FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,17 @@ public class ActivityPlants extends NavigationDrawerImp {
                 setSearchViewHint(tab.getText().toString().toLowerCase());
             }
         });
+        fab = (FloatingActionButton) findViewById(R.id.add_plant);
+        fab.setOnClickListener((View v)->{
+            if(tabLayout.getSelectedTabPosition() == 0) {
+                //Actividad para agregar plantas
+                Intent intent = new Intent(this, ActivityAddPlant.class);
+                startActivityForResult(intent, Constants.addPlantIntentId);
+            } else if(tabLayout.getSelectedTabPosition() == 1) {
+                Snackbar.make(v, "Agregar grupo de plantas", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
@@ -76,6 +95,14 @@ public class ActivityPlants extends NavigationDrawerImp {
         if(mSearchView != null) {
             mSearchView.setQueryHint(getString(R.string.activity_plants_search_hint)
                     +" en "+tabText+"...");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constants.addPlantIntentId) {
+            fragmentPlantas.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -117,9 +144,17 @@ public class ActivityPlants extends NavigationDrawerImp {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: return new FragmentPlantas();
-                case 1: return new FragmentPlantsGrupos();
-                default: return new FragmentPlantas();
+                case 0:
+                    if(fragmentPlantas == null) {
+                        fragmentPlantas = new FragmentPlantas();
+                    }
+                    return fragmentPlantas;
+                case 1:
+                    if(fragmentPlantsGrupos == null) {
+                        fragmentPlantsGrupos = new FragmentPlantsGrupos();
+                    }
+                    return fragmentPlantsGrupos;
+                default: return fragmentPlantas != null ? fragmentPlantas : (fragmentPlantas = new FragmentPlantas());
             }
         }
 
