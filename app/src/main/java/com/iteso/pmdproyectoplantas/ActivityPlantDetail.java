@@ -1,5 +1,6 @@
 package com.iteso.pmdproyectoplantas;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteso.pmdproyectoplantas.beans.Planta;
+import com.iteso.pmdproyectoplantas.tools.Constants;
+import com.iteso.pmdproyectoplantas.tools.ImageHelper;
 
 public class ActivityPlantDetail extends AppCompatActivity {
 
@@ -24,8 +27,9 @@ public class ActivityPlantDetail extends AppCompatActivity {
         setContentView(R.layout.activity_plant_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Planta planta = getIntent().getParcelableExtra("PLANT");
+        Planta planta = getIntent().getParcelableExtra(Constants.extraBeanPlanta);
         if(planta != null) {
             getSupportActionBar().setTitle(planta.getNombre());
             ((TextView)findViewById(R.id.apd_especie_sub)).setText(planta.getEspecie());
@@ -34,12 +38,13 @@ public class ActivityPlantDetail extends AppCompatActivity {
             ((TextView)findViewById(R.id.apd_alarmas_sub)).setText("No hay alarmas");
             ((TextView)findViewById(R.id.apd_eventos_sub)).setText("Tulipanes florecieron, y 9 más...");
 
-            StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("users")
-                    .child(FirebaseAuth.getInstance().getUid()).child("plants")
-                    .child(planta.getPlantaId()).child(planta.getImagenUriString());
-            mStorageReference.getDownloadUrl().addOnSuccessListener((Uri uri)->{
-                ((SimpleDraweeView)findViewById(R.id.backdrop)).setImageURI(uri);
-            });
+            ImageHelper.loadImage(findViewById(R.id.backdrop), planta);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

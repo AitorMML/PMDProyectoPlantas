@@ -115,6 +115,7 @@ public class ActivityPlants extends NavigationDrawerImp {
             setSearchViewHint(tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
                     .getText().toString().toLowerCase());
             mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                int cont = -1;
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     return false;
@@ -122,9 +123,18 @@ public class ActivityPlants extends NavigationDrawerImp {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    ActivityPlants.this.onQueryTextChange(newText);
+                    if(cont > newText.length()) {
+                        //restaura la lista
+                        fragmentPlantas.endSearch();
+                    }
+                    cont = newText.length();
+                    fragmentPlantas.doSearch(newText);
                     return true;
                 }
+            });
+            mSearchView.setOnQueryTextFocusChangeListener((View view, boolean b)->{
+                if(b) fragmentPlantas.startSearch();
+                else fragmentPlantas.endSearch();
             });
             //TODO: Regresar la lista de los Adapters a la normalidad cuando ya no se esté buscando
             /*mSearchView.setOnCloseListener(null);

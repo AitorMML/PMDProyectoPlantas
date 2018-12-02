@@ -20,9 +20,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.iteso.pmdproyectoplantas.beans.Planta;
 import com.iteso.pmdproyectoplantas.tools.Constants;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
@@ -37,7 +42,7 @@ public class ActivityAddPlant extends AppCompatActivity {
     private Button guardar;
     private Button cancelar;
 
-    private String mCurrentPhotoPath;
+    private String mCurrentPhotoPath = "";
     private boolean imageNotWanted = false;
 
     @Override
@@ -77,8 +82,12 @@ public class ActivityAddPlant extends AppCompatActivity {
         });
         quitar.setOnClickListener(view -> {
             imagen.setImageResource(android.R.color.darker_gray);
-            mCurrentPhotoPath = "";
-            imageNotWanted = true;
+            if(!mCurrentPhotoPath.isEmpty()) {
+                File archivo = new File(mCurrentPhotoPath);
+                archivo.delete();
+                mCurrentPhotoPath = "";
+            }
+            //imageNotWanted = true;
         });
     }
 
@@ -94,26 +103,39 @@ public class ActivityAddPlant extends AppCompatActivity {
         if(requestCode == Constants.takePictureIntentId) {
             if(resultCode == RESULT_OK) {
                 imagen.setImageURI(Uri.parse(mCurrentPhotoPath));
+                //galleryAddPic();
             } else if(resultCode == RESULT_CANCELED) {
                 //Tal vez poner un Toast de confirmación para no poner imagen
             }
         } else if(requestCode == Constants.selectPictureIntentId) {
             if(resultCode == RESULT_OK) {
                 Uri uri = data.getData();
-                /*String []projection = { MediaStore.Images.Media.DATA };
+                String filepath = null;
                 if(uri != null) {
+                    String []projection = { MediaStore.Images.Media.DATA };
                     Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
                     if(cursor != null) {
                         cursor.moveToFirst();
                         int columnIndex = cursor.getColumnIndex(projection[0]);
-                        String filepath = cursor.getString(columnIndex);
+                        filepath = cursor.getString(columnIndex);
                         cursor.close();
-                        imagen.setImageURI();
                     }
-                }*/
-                if(uri != null) {
-                    mCurrentPhotoPath = uri.getPath();
-                    imagen.setImageURI(uri);
+                    try(BufferedInputStream bis
+                                = new BufferedInputStream(new FileInputStream(filepath))
+                        ; BufferedOutputStream bos
+                                = new BufferedOutputStream(new FileOutputStream(createImageFile()
+                            .getAbsolutePath()))) {
+
+                        byte[] buf = new byte[1024];
+                        bis.read(buf);
+                        do {
+                            bos.write(buf);
+                        } while(bis.read(buf) != -1);
+                        bos.close();
+                        imagen.setImageURI(Uri.parse(mCurrentPhotoPath));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else if(resultCode == RESULT_CANCELED) {
                 //Tal vez poner un Toast de confirmación para no poner imagen
@@ -148,7 +170,9 @@ public class ActivityAddPlant extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the file
-                Toast.makeText(this, "Error al crear la imagen", Toast.LENGTH_LONG).show();
+                Toast.makeText(this
+                        , getString(R.string.activity_add_plant_error_crear_imagen)
+                        , Toast.LENGTH_LONG).show();
                 return;
             }
             // Continue only if the File was successfully created
@@ -174,10 +198,14 @@ public class ActivityAddPlant extends AppCompatActivity {
             return;
         }
 
-        //TODO: Construir el bean de planta y mandarlo en el put extra
+        Planta planta = new Planta();
+        planta.setNombre(nombre.getText().toString());
+        planta.setCuidados(cuidados.getText().toString());
+        planta.setEspecie(especie.getText().toString());
+        planta.setImagenUriString(mCurrentPhotoPath);
 
         Intent intent = new Intent();
-        intent.putExtra(Constants.extraBeanPlanta, "Holo");
+        intent.putExtra(Constants.extraBeanPlanta, planta);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -195,13 +223,19 @@ public class ActivityAddPlant extends AppCompatActivity {
             especie.setError(getString(R.string.campo_en_blanco));
         }
 
-        if((mCurrentPhotoPath == null || mCurrentPhotoPath.isEmpty()) && !imageNotWanted) {
-            DialogFragment dialogFragment = new DialogContinuarSinImagen();
+        if((mCurrentPhotoPath == null || mCurrentPhotoPath.isEmpty()) /*&& !imageNotWanted*/) {
+            DialogContinuarSinImagen dialogFragment = new DialogContinuarSinImagen();
             dialogFragment.show(getFragmentManager(), "dialogoImagenPlanta");
-            imageNotWanted = !((DialogContinuarSinImagen)dialogFragment).continuarAsi;
-            val &= imageNotWanted;
         }
 
         return val;
+    }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 }

@@ -33,13 +33,13 @@
         <activity
             android:name=".ActivityLogin"
             android:label="@string/title_activity_login">
-        </activity>
-
-        <activity android:name=".ActivityAddEvent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ActivityAddEvent">
         </activity>
 
         <activity

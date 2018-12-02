@@ -19,6 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:text="@string/activity_add_plant_fotografia"
             android:textSize="24sp" />
 
@@ -42,7 +43,7 @@
                     android:id="@+id/activity_add_plant_agregarfoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_menu_camera" />
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
 
                 <ImageButton
                     android:id="@+id/activity_add_plant_agregarGaleria"

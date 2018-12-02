@@ -39,23 +39,20 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
-public class FragmentPlantas extends Fragment implements Filterable {
+public class FragmentPlantas extends Fragment {
     private AdapterPlanta mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private List<Planta> plantas = new LinkedList<>();
+    private List<Planta> backup;
     private DatabaseReference mDataReference;
+    private ValueEventListener valueEventListener;
 
-    public FragmentPlantas() {}
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mDataReference = FirebaseDatabase.getInstance().getReference("users")
-                .child(FirebaseAuth.getInstance().getUid()).child("plants");
-        mDataReference.addValueEventListener(new ValueEventListener() {
+    public FragmentPlantas() {
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                plantas.clear();
                 DataSnapshot snapshot = dataSnapshot;
                 Iterable<DataSnapshot> contactChildre = snapshot.getChildren();
                 for(DataSnapshot data : contactChildre) {
@@ -69,9 +66,15 @@ public class FragmentPlantas extends Fragment implements Filterable {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+    }
 
-       //FirebaseDatabase.getInstance().getReference("users").child("KCeb2n1Ib6aJHY2tyi1LuoGQkIi2").child("plants").child("12345").child("nombre").setValue("acasia")
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDataReference = FirebaseDatabase.getInstance().getReference("users")
+                .child(FirebaseAuth.getInstance().getUid()).child("plants");
+        mDataReference.addValueEventListener(valueEventListener);
     }
 
     @Override
@@ -86,27 +89,51 @@ public class FragmentPlantas extends Fragment implements Filterable {
         mAdapter = new AdapterPlanta(getActivity(), plantas);
         recyclerView.setAdapter(mAdapter);
 
-        /*Planta planta = new Planta();
-        planta.setNombre("Tulip el Tulipan");
-        planta.setEspecie("Liliaceae");
-        planta.setCuidados("Plantar en área de sombra moderada.\nRegar menos en primavera y regar más en verano.\nCuidar que el agua no se estanque.");
-        planta.setPlantaId(databaseReference.child("plantas").push().getKey());
-        databaseReference.child("plantas").child(planta.getPlantaId()).setValue(planta);*/
-
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Toast.makeText(getContext(), "Desde fragment plantas: "+data.getStringExtra(Constants.extraBeanPlanta), Toast.LENGTH_SHORT).show();
+            addNewPlant(data.getParcelableExtra(Constants.extraBeanPlanta));
         } else if(resultCode == RESULT_CANCELED) {
-            Toast.makeText(getContext(), "Desde fragment plantas: :c", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.activity_add_plant_canelar)
+                    , Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public Filter getFilter() {
-        return ((Filterable)mAdapter).getFilter();
+    public void startSearch() {
+        backup = new LinkedList<>(plantas);
+    }
+
+    public void doSearch(String text) {
+        mAdapter.getFilter().filter(text);
+    }
+
+    public void endSearch() {
+        plantas.clear();
+        plantas.addAll(backup);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemRangeChanged(0, plantas.size());
+
+    }
+
+    protected void addNewPlant(Planta planta) {
+        String key = mDataReference.push().getKey();
+
+        if(mDataReference != null && planta != null) {
+            mDataReference.child(key).setValue(planta).addOnCompleteListener( var->{
+                if(var.isSuccessful()) {
+                    Toast.makeText(getContext(), getString(R.string.fragment_plantas_agregado_exitoso), Toast.LENGTH_SHORT).show();
+                    planta.setPlantaId(key);
+                    plantas.add(planta);
+                    //mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+    }
+
+    public void fetchFromRemote(List<Planta> lista, DatabaseReference dbref) {
     }
 }

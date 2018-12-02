@@ -2,7 +2,14 @@ package com.iteso.pmdproyectoplantas.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -32,8 +39,12 @@ import com.iteso.pmdproyectoplantas.NavigationDrawerImp;
 import com.iteso.pmdproyectoplantas.R;
 import com.iteso.pmdproyectoplantas.beans.Grupo;
 import com.iteso.pmdproyectoplantas.beans.Planta;
+import com.iteso.pmdproyectoplantas.tools.Constants;
+import com.iteso.pmdproyectoplantas.tools.ImageHelper;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder> implements Filterable {
@@ -58,22 +69,16 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.nombre.setText(mDataSet.get(position).getNombre());
-        holder.descripcion.setText(mDataSet.get(position).getEspecie());
+        Planta current = mDataSet.get(position);
+        holder.nombre.setText(current.getNombre());
+        holder.descripcion.setText(current.getEspecie());
         holder.imagen.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("users")
-                .child(FirebaseAuth.getInstance().getUid()).child("plants")
-                .child(mDataSet.get(position).getPlantaId()).child(mDataSet.get(position).getImagenUriString());
-        mStorageReference.getDownloadUrl().addOnSuccessListener((Uri uri)->{
-            //mDataSet.get(position).setImagenUriString(uri.toString());
-            SimpleDraweeView draweeView = (SimpleDraweeView) holder.imagen;
-            draweeView.setImageURI(uri);
-        });
+        ImageHelper.loadImage(holder.imagen, current);
 
         holder.contenedor.setOnClickListener((View v)->{
             Intent intent = new Intent(context, ActivityPlantDetail.class);
-            intent.putExtra("PLANT", mDataSet.get(position));
+            intent.putExtra(Constants.extraBeanPlanta, current);
             context.startActivity(intent);
         });
     }
@@ -89,22 +94,33 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                //TODO: Implementar safe check para evitar que se vacie la lista
-                mDataSet = (List<Planta>) results.values;
-                notifyDataSetChanged();
+                if(results.count == 0) {
+                    mDataSet.clear();
+                    notifyDataSetChanged();
+                } else {
+                    mDataSet.clear();
+                    mDataSet.addAll((List<Planta>) results.values);
+                    notifyDataSetChanged();
+                }
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Planta> filteredResults = null;
-                if (constraint.length() == 0) {
-                    filteredResults = mDataSet;
-                } else {
-                    filteredResults = getSearchResults(constraint.toString().toLowerCase());
-                }
-
                 FilterResults results = new FilterResults();
-                results.values = filteredResults;
+                List<Planta> filteredResults = null;
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = mDataSet;
+                    results.count = mDataSet.size();
+                } else {
+                    List<Planta> nPlantas = new LinkedList<>();
+                    for(Planta p : mDataSet) {
+                        if(p.getNombre().toLowerCase().contains(constraint.toString().toLowerCase()) || p.getEspecie().contains(constraint)) {
+                            nPlantas.add(p);
+                        }
+                    }
+                    results.values = nPlantas;
+                    results.count = nPlantas.size();
+                }
 
                 return results;
             }
@@ -116,11 +132,6 @@ public class AdapterPlanta extends RecyclerView.Adapter<AdapterPlanta.ViewHolder
     protected List<Planta> getSearchResults(String query) {
         List<Planta> results = new ArrayList<>(mDataSet);
 
-        /*for (Grupo item : mDataSet) {
-            if (item.getName().toLowerCase().contains(constraint)) {
-                results.add(item);
-            }
-        }*/
         //TODO: Implementar la búsqueda adecuada deacuerdo al bean Planta
         for(int i=0; i<query.length(); ++i) {
             results.remove(0);
