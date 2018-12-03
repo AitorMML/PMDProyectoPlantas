@@ -23,6 +23,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.iteso.pmdproyectoplantas.tools.Constants;
 
 public class ActivityMain extends NavigationDrawerImp {
     FloatingActionButton fab ;
@@ -34,13 +35,12 @@ public class ActivityMain extends NavigationDrawerImp {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fab = (FloatingActionButton) findViewById(R.id.add_plant);
+        fab = (FloatingActionButton) findViewById(R.id.add_event);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //************** ABRIR ACTIVIDAD PARA PLANTA NUEVA (CÁMARA)
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(ActivityMain.this, ActivityAddEvent.class);
+                startActivityForResult(intent, Constants.addEventIntentId);
             }
         });
 

@@ -1,6 +1,7 @@
 package com.iteso.pmdproyectoplantas.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.iteso.pmdproyectoplantas.R;
 import com.iteso.pmdproyectoplantas.beans.Evento;
 
@@ -21,6 +27,8 @@ import java.util.List;
 public class AdapterEvento extends RecyclerView.Adapter<AdapterEvento.ViewHolder> {
     private List<Evento> mDataSet;
     private Context context;
+
+    private DatabaseReference databaseReference;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public AdapterEvento(Context context, ArrayList<Evento> myDataSet) {
@@ -38,12 +46,28 @@ public class AdapterEvento extends RecyclerView.Adapter<AdapterEvento.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.mEventTitle.setText(mDataSet.get(position).getTitulo());
+        holder.mEventImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        holder.mPlantGroups.setText(mDataSet.get(position).getGrupoId());
+        holder.mEventNotes.setText(mDataSet.get(position).getNotas());
+        holder.mEventDate.setText((int) mDataSet.get(position).getEpochFecha());
+/*
         //TODO: llenar a Holder (la clase de abajo) con los datos de verdad
         holder.mEventImage.setImageResource(R.drawable.tulipanes);
         holder.mEventTitle.setText("Tulipanes florecieron");
         holder.mPlantGroups.setText("Flores de sombra");
         holder.mEventNotes.setText("Ver tus anotaciones");
         holder.mEventDate.setText("10 de julio del 1996");
+        */
+
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("users")
+                .child(FirebaseAuth.getInstance().getUid()).child("events")
+                .child(mDataSet.get(position).getEventoId()).child(mDataSet.get(position).getTitulo());
+        mStorageReference.getDownloadUrl().addOnSuccessListener((Uri uri)->{
+            //mDataSet.get(position).setImagenUriString(uri.toString());
+            SimpleDraweeView draweeView = (SimpleDraweeView) holder.mEventImage;
+            draweeView.setImageURI(uri);
+        });
     }
 
     @Override

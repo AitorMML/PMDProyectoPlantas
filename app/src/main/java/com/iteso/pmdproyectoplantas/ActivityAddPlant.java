@@ -66,10 +66,6 @@ public class ActivityAddPlant extends AppCompatActivity {
             agregarPlanta();
         });
         tomarFoto.setOnClickListener(view -> {
-            /*Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if(cameraIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(cameraIntent, Constants.takePictureIntentId);
-            }*/
             dispatchTakePictureIntent();
         });
         tomarDeGaleria.setOnClickListener(view -> {

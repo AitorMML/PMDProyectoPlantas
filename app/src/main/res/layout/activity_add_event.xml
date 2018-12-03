@@ -1,100 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/fab_margin"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/padding_general"
+    android:paddingLeft="@dimen/padding_general"
+    android:paddingRight="@dimen/padding_general"
+    android:paddingTop="@dimen/padding_general"
     tools:context=".ActivityAddEvent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_title"
+            android:text="@string/activity_add_event_photo"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/add_event_picture"
+                app:srcCompat="@android:color/darker_gray"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/add_event_add_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_menu_camera"/>
+                <ImageButton
+                    android:id="@+id/add_event_gallery_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@android:drawable/ic_menu_gallery" />
+                <ImageButton
+                    android:id="@+id/add_event_delete_picture"
+                    app:srcCompat="@android:drawable/ic_menu_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+
         <EditText
-            android:id="@+id/add_event_id"
-            android:text="@string/add_event_id"
+            android:id="@+id/add_event_name"
+            android:hint="@string/activity_add_event_name"
             android:inputType="textCapSentences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/add_event_title"
-            android:text="@string/add_event_title"
-            android:inputType="textCapSentences"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/add_event_group"
-            android:text="@string/add_event_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/add_event_notes"
-            android:text="@string/add_event_notes"
+            android:hint="@string/activity_add_event_notes"
             android:inputType="textCapSentences"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/add_event_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ImageView
-            android:id="@+id/add_event_picture"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <!-- Sacar foto para evento-->
-        <Button
-            android:id="@+id/add_event_add_picture"
-            android:text="@string/add_event_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:layout_margin="@dimen/fab_margin"
+        <LinearLayout
+            android:layout_margin="@dimen/padding_general"
             android:gravity="center"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/add_event_date"
-                android:text="@string/add_event_date"
+                android:text="@string/activity_add_event_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
             <Button
                 android:id="@+id/add_event_add_date"
-                android:layout_toEndOf="@id/add_event_date"
-                android:text="@string/add_event_add_date"
+                android:text="@string/activity_add_event_add_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
+        </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/add_layout_buttons"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_margin="@dimen/padding_general"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/add_button_cancel"
-                android:text="@string/button_cancel"
+                android:id="@+id/add_event_button_cancel"
+                android:text="@string/activity_add_event_button_cancel"
                 android:layout_margin="@dimen/fab_margin"
                 android:background="@color/cardview_light_background"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/add_button_ok"
-                android:text="@string/button_ok"
+                android:id="@+id/add_event_button_ok"
+                android:text="@string/activity_add_event_button_ok"
                 android:background="@color/colorPrimary"
                 android:layout_margin="@dimen/fab_margin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
