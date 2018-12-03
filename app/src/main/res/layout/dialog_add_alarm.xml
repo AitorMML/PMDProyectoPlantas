@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:paddingTop="11dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="@string/dialog_add_alarm_tipo_recordatorio"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            tools:background="#E9E9E9" />
+
+        <RadioGroup
+            android:id="@+id/dialog_add_grupo_diario_semanal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/dialog_add_radiobtn_diario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_alarm_recordatorio_diario" />
+
+            <RadioButton
+                android:id="@+id/dialog_add_radiobtn_semanal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_alarm_recordatorio_semanal" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/dialog_add_grupo_dias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/dialog_add_lunes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_l"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_martes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_m"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_miercoles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_mi"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_jueves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_j"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_viernes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_v"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_sabado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_s"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_domingo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/dialog_add_alarm_d"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/dialog_add_alarm_que_deseas_hacer"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            tools:background="#E9E9E9" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/dialog_add_alarm_regar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_regar_planta" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_alarm_cambiar_tierra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_cambio_tierra" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_alarm_desparacitar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_desparacitar" />
+
+            <CheckBox
+                android:id="@+id/dialog_add_alarm_podar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_add_podar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/dialog_add_alarm_otro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/texto_comun_otro" />
+
+                <EditText
+                    android:id="@+id/dialog_add_otro_texto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/texto_comun_otro"
+                    android:visibility="invisible" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/dialog_add_hora_recordatorio"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:background="?android:attr/listDivider"
+            tools:background="#E9E9E9" />
+
+        <TimePicker
+            android:id="@+id/dialog_add_timepicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" />
+
+        <DatePicker
+            android:id="@+id/dialog_add_datepicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</ScrollView>

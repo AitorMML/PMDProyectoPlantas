@@ -17,7 +17,7 @@ public class DialogContinuarSinImagen extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.activity_add_plant_dialog_message)
-                .setPositiveButton("Ok", (DialogInterface dialog, int id)->{
+                .setNeutralButton("Ok", (DialogInterface dialog, int id)->{
                 }).setIcon(android.R.drawable.ic_dialog_alert);
         // Create the AlertDialog object and return it
         return builder.create();

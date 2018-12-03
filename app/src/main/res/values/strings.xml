@@ -10,6 +10,9 @@
     <string name="campo_en_blanco">¡Campo vacío!</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
+    <string name="texto_comun_otro">Otro</string>
+    <string name="texto_comun_aceptar">Aceptar</string>
+    <string name="texto_comun_cancelar">Cancelar</string>
 
     <string name="drawer_my_plants">Mis plantas</string>
     <string name="drawer_events">Eventos</string>
@@ -77,5 +80,28 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancelar</string>
 
+    <!-- Diálogo para agregar alarmas -->
+    <string name="dialog_add_titulo">Agregar recordatorio</string>
+    <string name="dialog_add_alarm_tipo_recordatorio">Tipo de recordatorio</string>
+    <string name="dialog_add_alarm_recordatorio_diario">Recordatorio único</string>
+    <string name="dialog_add_alarm_recordatorio_semanal">Recordatorio semanal</string>
+    <string name="dialog_add_alarm_l">L</string>
+    <string name="dialog_add_alarm_m">M</string>
+    <string name="dialog_add_alarm_mi">M</string>
+    <string name="dialog_add_alarm_j">J</string>
+    <string name="dialog_add_alarm_v">V</string>
+    <string name="dialog_add_alarm_s">S</string>
+    <string name="dialog_add_alarm_d">D</string>
+    <string name="dialog_add_alarm_que_deseas_hacer">¿Qué deseas hacer?</string>
+    <string name="dialog_add_regar_planta">Regar planta</string>
+    <string name="dialog_add_cambio_tierra">Cambiar tierra</string>
+    <string name="dialog_add_desparacitar">Desparacitar</string>
+    <string name="dialog_add_podar">Podar</string>
+    <string name="dialog_add_hora_recordatorio">Hora del recordatorio</string>
+    <string name="dialog_add_alarma_agregado_exitoso">Alarma agregada con exito</string>
+    <string name="dialog_add_alarma_agregado_fallido">Alarma no agregada</string>
+    <string name="dialog_add_no_hay_alarmas">No hay alarmas para esta planta</string>
+    <string name="dialog_add_borrar_alarma">¿Desea borrar esta alarma?</string>
+    <string name="dialog_add_borrar_alarma_fallido">La alarma no se pudo borrar</string>
 
 </resources>
