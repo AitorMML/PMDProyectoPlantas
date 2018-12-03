@@ -1,13 +1,17 @@
 package com.iteso.pmdproyectoplantas;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,6 +39,9 @@ import com.iteso.pmdproyectoplantas.beans.Planta;
 import com.iteso.pmdproyectoplantas.tools.Constants;
 import com.iteso.pmdproyectoplantas.tools.ImageHelper;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +74,7 @@ public class ActivityPlantDetail extends AppCompatActivity
                         if (alarma.getOtro()) {contenido+=alarma.getOtroCampo()+", ";}
                         contenido = contenido.substring(0, contenido.lastIndexOf(", "));
                         contenido+=": "+alarma.getTime();
-                        if(!alarma.isOnce()) { contenido+=" para el "+alarma.getDate(); }
+                        if(alarma.isOnce()) { contenido+=" para el "+alarma.getDate(); }
                         contenido+=" (cancelar)";
                         textView.setText(contenido);
                         textView.setOnClickListener((View v)->{ ActivityPlantDetail.this.onAlarmaBorrar(v);});
@@ -109,6 +116,16 @@ public class ActivityPlantDetail extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(getIntent().getAction() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Alarma activada").setMessage("Recuerde que tiene que: ").setNeutralButton("OK", null);
+            builder.create().show();
+        }
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
@@ -124,6 +141,7 @@ public class ActivityPlantDetail extends AppCompatActivity
                 if(var.isSuccessful()) {
                     Toast.makeText(this, getString(R.string.dialog_add_alarma_agregado_exitoso)
                             , Toast.LENGTH_SHORT).show();
+                    setAlarmInSystem(alarma);
                 } else if(var.isCanceled()) {
                     Toast.makeText(this, getString(R.string.dialog_add_alarma_agregado_fallido)
                             , Toast.LENGTH_SHORT).show();
@@ -160,5 +178,27 @@ public class ActivityPlantDetail extends AppCompatActivity
                 })
                 .setNegativeButton(R.string.no, (DialogInterface dialog, int id)->{});
         builder.create().show();
+    }
+
+    @TargetApi(26)
+    private void setAlarmInSystem(Alarma alarma) {
+        Intent intent = new Intent(this, ActivityPlantDetail.class);
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("alarma", alarma);
+        intent.putExtra(Constants.extraBeanPlanta, planta);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.alarmOnIntent,
+                intent, 0);
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(this.ALARM_SERVICE);
+
+        if(alarma.isOnce()) {
+            //Instant instante = Instant.parse(alarma.getDate()+"T"+alarma.getTime()+"Z");
+            Calendar calendar = Calendar.getInstance();
+            LocalDateTime fecha = LocalDateTime.parse(alarma.getDate()+"T"+alarma.getTime());
+            calendar.set(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth(), fecha.getHour(), fecha.getMinute());
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()-calendar.getTimeInMillis(), pendingIntent);
+        } else {
+
+        }
     }
 }

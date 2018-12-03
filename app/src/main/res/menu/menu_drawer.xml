@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_events"
             android:title="@string/drawer_events" />
-        <item
+        <!--item
             android:id="@+id/nav_alarms"
             android:title="@string/drawer_alarms" />
         <item
@@ -18,14 +18,14 @@
             android:title="@string/drawer_notifications" />
         <item
             android:id="@+id/nav_help"
-            android:title="@string/drawer_help" />
+            android:title="@string/drawer_help" /-->
     </group>
 
     <item android:title="Sistema">
     <menu>
-        <item
+        <!--item
             android:id="@+id/nav_settings"
-            android:title="@string/drawer_settings" />
+            android:title="@string/drawer_settings" /-->
         <item
             android:id="@+id/nav_logout"
             android:title="@string/drawer_log_out" />

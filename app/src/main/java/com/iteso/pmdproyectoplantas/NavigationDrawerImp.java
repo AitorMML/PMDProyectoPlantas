@@ -122,7 +122,7 @@ public class NavigationDrawerImp extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_events) {
             Intent intent = new Intent(this, ActivityMain.class);
             startActivity(intent);
-        } else if (id == R.id.nav_alarms) {
+        } /*else if (id == R.id.nav_alarms) {
 
         } else if (id == R.id.nav_notifications) {
 
@@ -130,7 +130,7 @@ public class NavigationDrawerImp extends AppCompatActivity implements Navigation
 
         } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_logout) {
+        } */else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
 

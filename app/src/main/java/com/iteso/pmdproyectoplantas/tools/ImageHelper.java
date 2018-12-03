@@ -24,7 +24,8 @@ public class ImageHelper {
             });
         } else {
             Bitmap bitmap = BitmapFactory.decodeFile(current.getImagenUriString());
-            imagen.setImageBitmap(bitmap);
+            if (bitmap != null)  { imagen.setImageBitmap(bitmap); }
+            else { imagen.setImageResource(android.R.color.darker_gray);}
         }
     }
 }

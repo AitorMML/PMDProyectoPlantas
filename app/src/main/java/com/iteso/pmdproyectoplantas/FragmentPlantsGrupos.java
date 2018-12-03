@@ -33,8 +33,8 @@ public class FragmentPlantsGrupos extends Fragment implements Filterable {
         recyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<Grupo> myDataSet = new ArrayList<>();
-        for (int i=0; i<5; ++i)
-            myDataSet.add(new Grupo());
+        /*for (int i=0; i<5; ++i)
+            myDataSet.add(new Grupo());*/
 
         mAdapter = new AdapterGrupo(getActivity(),myDataSet);
         recyclerView.setAdapter(mAdapter);

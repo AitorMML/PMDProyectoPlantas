@@ -8,4 +8,7 @@ public class Constants {
     public static final int addPlantIntentId = 1111;
     public static final int takePictureIntentId = 2222;
     public static final int selectPictureIntentId = 3333;
+
+    public static final int alarmOnIntent = 4444;
+    public static final String alarmBroadcastIntent = "com.iteso.pmdproyectoplantas.alarma";
 }

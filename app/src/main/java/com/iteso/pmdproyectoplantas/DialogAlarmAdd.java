@@ -128,8 +128,8 @@ public class DialogAlarmAdd extends DialogFragment {
         alarma.setPodar(podar.isChecked());
         alarma.setOtro(otro.isChecked());
         alarma.setOtroCampo(campoOtro.getText().toString());
-        alarma.setTime(timepicker.getHour()+":"+timepicker.getMinute());
-        alarma.setDate(datePicker.getYear()+"-"+datePicker.getMonth()+"-"+datePicker.getDayOfMonth());
+        alarma.setTime(String.format("%02d:%02d:00", timepicker.getHour(), timepicker.getMinute()));
+        alarma.setDate(String.format("%d-%02d-%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth()));
         return alarma;
     }
 }
