@@ -42,6 +42,8 @@
         <activity android:name=".ActivityAddEvent">
         </activity>
 
+        <activity android:name=".ActivityEvents"/>
+
         <activity
             android:name=".ActivityPlants"
             android:theme="@style/AppTheme.NoActionBar" />

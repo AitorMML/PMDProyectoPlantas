@@ -33,7 +33,7 @@ public class FragmentEventos extends Fragment {
 
         //TODO: Cambiar por implementación real de las plantas en la bd
         ArrayList<Evento> myDataSet = new ArrayList<>();
-        for (int i=0; i<10; ++i)
+        for (int i=0; i<1; ++i)
             myDataSet.add(new Evento());
 
         mAdapter = new AdapterEvento(getActivity(),myDataSet);

@@ -39,8 +39,8 @@ public class ActivityMain extends NavigationDrawerImp {
             @Override
             public void onClick(View view) {
                 //************** ABRIR ACTIVIDAD PARA PLANTA NUEVA (CÁMARA)
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(ActivityMain.this, ActivityAddEvent.class);
+                startActivity(intent);
             }
         });
 

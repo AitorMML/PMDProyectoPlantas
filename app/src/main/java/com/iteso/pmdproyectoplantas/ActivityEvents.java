@@ -48,7 +48,6 @@ public class ActivityEvents extends AppCompatActivity {
                 //parcelable?
                 Intent intent = new Intent(ActivityEvents.this, ActivityAddEvent.class);
                 startActivity(intent);
-
             }
         });
 
